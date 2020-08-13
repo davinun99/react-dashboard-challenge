@@ -23,4 +23,8 @@ header{
     margin-top: .25rem;
     font-size: 80%;
     color: #dc3545;
+    border: 1px solid red;
+    border-radius: 7%;
+    height: 40%;
+    padding: 10px;
 }

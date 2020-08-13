@@ -23,7 +23,7 @@ const GraphData = ({data, turnOnAnimation}) => {
                                     </td>
                                     <td className="text-left">{row.firstName}</td>
                                     <td className="text-left">{row.lastName}</td>
-                                    <td>{row.participation}</td>
+                                    <td>{`${row.participation} %`}</td>
                                 </tr>
                             ))}
                     </tbody>

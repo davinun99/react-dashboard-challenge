@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react';
 
 const AddData = ({afterSubmit, actualData}) => {
     const initialState = {
@@ -6,7 +7,7 @@ const AddData = ({afterSubmit, actualData}) => {
         lastName: "",
         participation: "",
     }
-    const[errorMessagge, setErrorMessage] = useState(null);
+    const [errorMessagge, setErrorMessage] = useState(null);
     const [newData, setNewData] = useState(initialState);
     const handleChange = (e) => {
         setNewData({
@@ -23,7 +24,10 @@ const AddData = ({afterSubmit, actualData}) => {
         const possibleSum = actualSum + Number(newData.participation);
         console.log(possibleSum);
         if ( possibleSum > 100){
-            setErrorMessage(<div className="custonInvalid">La suma final debe ser menor a 100</div>);
+            setErrorMessage(<div className="alert alert-warning col-sm-11 col-md-6">Final participation should be less than 100</div>);
+            setTimeout(() => {
+                setErrorMessage(null);
+            }, 2200);
         }else{
             afterSubmit(newData);
             setNewData(initialState);
@@ -31,6 +35,7 @@ const AddData = ({afterSubmit, actualData}) => {
         }
     }
     return (
+        <>
         <header className="justify-content-center">
             <form className="container h-100" onSubmit={handleSubmit}>
                 <div className="d-flex justify-content-center h-100 d-flex align-items-center">
@@ -43,11 +48,15 @@ const AddData = ({afterSubmit, actualData}) => {
                     <input name="participation" className="mr-sm-1 mr-md-3 form-control textInput" value={newData.participation}
                         placeholder="Participation" type="number" onChange={handleChange} required max={100}
                     />
-                        {errorMessagge}
                     <input className="btn btn-block text-white" type="submit" value="SEND" name="" id="button"/>
                 </div>
             </form>
         </header>
+        <div className="row justify-content-center mt-3">
+            {errorMessagge}
+        </div>
+        
+        </>
     )
 }
 
