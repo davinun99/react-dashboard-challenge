@@ -41,7 +41,7 @@ const App = () => {
         try {
             const requestHeaders = new Headers();
             requestHeaders.append("Content-Type", "application/json");
-            const req = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/data`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/data`, {
                 method: 'POST',
                 headers: requestHeaders,
                 body: JSON.stringify(element),
