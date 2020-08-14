@@ -1,10 +1,27 @@
 import React from 'react'
 import { PieChart } from 'react-minimal-pie-chart';
-const GraphData = ({data, turnOnAnimation}) => {
+const GraphData = ({data, turnOnAnimation, alertMessage}) => {
     
     const shiftSize = 1;
+    if(data){
+        if (data.length === 0) {
+            if(!alertMessage)
+                return(<p id="graphData" className="alert alert-info">{`No data, add something!`}</p>);
+            else
+                return(<p id="graphData" className="alert alert-warning">{alertMessage}</p>);
+        }
+    }else{
+        return(<p>Cargando...</p>);
+    }
+    const getDataToChart = () => {
+        const total = data.reduce((acc, {participation})=>(acc + Number(participation)), 0);
+        if (total < 100){
+            return [...data,{ value: (100 - total)}]
+        }
+        return data;
+    }
     return (
-        <div className="row mt-5">
+        <div className="row mt-5" id="graphData">
             <div className="col-sm-12 col-md-6">
                 <table className="table table-bordered">
                     <thead>
@@ -17,11 +34,11 @@ const GraphData = ({data, turnOnAnimation}) => {
                     </thead>
                     <tbody>
                             {data.map((row, i)=>(
-                                <tr key={i}>
+                                <tr key={i} >
                                     <td>
                                         { i + 1 }
                                     </td>
-                                    <td className="text-left">{row.firstName}</td>
+                                    <td className="text-left" id={`dataElement${i}`}>{row.firstName}</td>
                                     <td className="text-left">{row.lastName}</td>
                                     <td>{`${row.participation} %`}</td>
                                 </tr>
@@ -31,13 +48,13 @@ const GraphData = ({data, turnOnAnimation}) => {
             </div>
             <div className="col-sm-12 col-md-6 row">
                 <div className="col-sm-6">
-                    <PieChart
-                        data={data}
+                    {turnOnAnimation && <PieChart
+                        data={getDataToChart()}
                         radius={45}
                         segmentsShift={(index) => (index === 0 ? shiftSize : 0.5)}
-                        animate={turnOnAnimation}
+                        animate
                         lineWidth={50}
-                    />
+                    />}
                 </div>
                 <div className="col-sm-6">
                     <ul className="list-unstyled">
